@@ -127,8 +127,8 @@ export class BossBattle extends Phaser.Scene {
 
         if (cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-370)
-            // let throwsound = this.sound.add("throw")
-            // throwsound.play()
+            let throwsound = this.sound.add("throw")
+            throwsound.play()
             var bullet = bullets.get();
             if (bullet)
             {
