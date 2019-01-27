@@ -2,17 +2,14 @@ import Phaser from 'phaser';
 
 var player;
 var cursors;
-<<<<<<< HEAD
 var platforms;
 var star;
-=======
 // var platforms;
 var resourcesGathered = 0;
 var resourcesMax = 100;
 var resourcesDropped = 0;
 var playerHealth = 100;
 
->>>>>>> master
 
 export class LevelOne extends Phaser.Scene {
     constructor () {
@@ -36,19 +33,6 @@ export class LevelOne extends Phaser.Scene {
     
     create () {
 
-<<<<<<< HEAD
-
-
-        this.background = this.add.tileSprite(window.innerWidth/2.35, window.innerHeight/2.06,1200,800, 'background')
-        player = this.physics.add.sprite(100, 450, 'player')
-
-        platforms = this.physics.add.staticGroup();
-        platforms.create(500,800, 'platforms').setScale(4).refreshBody();
-
-        platforms.create(200, 550, 'platforms').setScale(.5).refreshBody();
-        platforms.create(800, 500, 'platforms').setScale(.5).refreshBody();
-
-=======
         this.background = this.add.tileSprite(window.innerWidth/2.35, window.innerHeight/2.06,1200,800, 'background')
         var map = this.make.tilemap({ key: 'map' })
         var groundTiles = map.addTilesetImage('tiles')
@@ -62,7 +46,6 @@ export class LevelOne extends Phaser.Scene {
         // platforms.create(500,800, 'platforms').setScale(4).refreshBody();
 
         player = this.physics.add.sprite(100, 200, 'player')
->>>>>>> master
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         player.body.setSize(player.width, player.height-8);
