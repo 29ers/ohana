@@ -1,9 +1,8 @@
 import Phaser from 'phaser';
 
 var player;
-var cursors;
 var platforms;
-var star;
+// var star;
 // var platforms;
 var resourcesGathered = 0;
 var resourcesGatheredText;
@@ -12,6 +11,7 @@ var resourcesDropped = 0;
 var playerHealth = 100;
 var map;
 var groundLayer;
+var groundTiles;
 var stars;
 var cursors;
 
@@ -29,7 +29,7 @@ export class LevelOne extends Phaser.Scene {
         this.load.spritesheet('tiles', 'assets/tiles.png', {frameWidth: 70, frameHeight: 70});
         // this.load.image('platforms', 'assets/ground.png');
         this.load.image('background', 'assets/Forest.png');
-        this.load.image('star', 'assets/stick.png')
+        this.load.image('star', 'assets/rock.png')
         this.load.image('bomb', 'assets/bomb.png')
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
 
@@ -39,7 +39,7 @@ export class LevelOne extends Phaser.Scene {
 
         this.background = this.add.tileSprite(window.innerWidth/2.23, window.innerHeight/2.15,1200,800, 'background')
         map = this.make.tilemap({ key: 'map' })
-        var groundTiles = map.addTilesetImage('tiles')
+        groundTiles = map.addTilesetImage('tiles')
         groundLayer = map.createDynamicLayer('World', groundTiles, 1, 200)
         groundLayer.setCollisionByExclusion([-1]);
 
@@ -52,6 +52,7 @@ export class LevelOne extends Phaser.Scene {
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         // player.body.setSize(player.width, player.height-8);
+        this.physics.add.collider(player, groundLayer);
 
         // this.physics.add.overlap(player, resource, collectResources, null, this);
         // this.physics.add.overlap(player, bomb, collectResources, null, this);
@@ -94,25 +95,36 @@ export class LevelOne extends Phaser.Scene {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
         });
-        this.physics.add.collider(stars, platforms);
-        this.physics.add.overlap(player, stars, collectStar, null, this);
+        this.physics.add.collider(stars, groundLayer);
+        // this.physics.add.overlap(player, stars, collectStar, null, this);
 
     }
 update () {
 
-        let direction = 0;
+    let direction = 0;
 
-        if (cursors.up.isDown && player.body.onFloor()) {
+    if (cursors.left.isDown) {
+        direction = -1;
+        player.setVelocityX(-160);
+        player.anims.play('left', true)
+    } else if (cursors.right.isDown) {
+        direction = 1;
+        player.setVelocityX(160);
+        player.anims.play('right', true)
+    } else {
+        direction = 0;
+        player.setVelocityX(0);
+        player.anims.play('turn', true)
+    }
 
+    if (cursors.up.isDown && player.body.onFloor()) {
 
-            player.setVelocityY(-370)
-        }
+        player.setVelocityY(-370)
+    }
 
+    this.background.tilePositionX += direction*5
 
-        if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
-
-            this.scene.start('bossOne')
-        }
+    this.input.keyboard.on('keydown_' + 'SPACE', () => {this.scene.start('bossOne')});
 
     }
 
