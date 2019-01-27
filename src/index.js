@@ -19,5 +19,7 @@ const config = {
     },
     scene: [ Menu, Game, LevelOne, Die, Win ]
 };
+var platforms;
+var stars;
 
 const game = new Phaser.Game(config);
