@@ -11,6 +11,6 @@ export class Menu extends Phaser.Scene {
     create () {
         console.log('Menu')
         this.cameras.main.setBackgroundColor('#D35400');
-        this.scene.start('game')
+        this.scene.start('BossBattle')
     }
 }
