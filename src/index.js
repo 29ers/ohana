@@ -1,9 +1,14 @@
 import Phaser from 'phaser';
 import { Menu } from './scenes/menu';
-import { Game } from './scenes/game';
 import { LevelOne } from './scenes/levelOne';
+import { LevelTwo } from './scenes/levelTwo';
+import { LevelThree } from './scenes/levelThree';
+import { LevelFour } from './scenes/levelFour';
 import { Die } from './scenes/die';
 import { Win } from './scenes/win';
+import { BossOne } from './scenes/bossOne';
+import { BossTwo } from './scenes/bossTwo';
+import { BossThree } from './scenes/bossThree';
 
 const config = {
     type: Phaser.AUTO,
@@ -17,7 +22,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ Menu, Game, LevelOne, Die, Win ]
+    scene: [ Menu, LevelOne, Die, Win, BossOne, LevelTwo, BossTwo, LevelThree, BossThree, LevelFour ]
 };
 var platforms;
 var stars;
