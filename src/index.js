@@ -1,34 +1,23 @@
-import 'phaser';
+import Phaser from 'phaser';
+import { Menu } from './scenes/menu';
+import { Game } from './scenes/game';
+import { LevelOne } from './scenes/levelOne';
+import { Die } from './scenes/die';
+import { Win } from './scenes/win';
 
-var config = {
+const config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: 800,
-    height: 600,
-    scene: {
-        preload: preload,
-        create: create
-    }
+    parent: 'ohana',
+    width: 1200,
+    height: 800,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300},
+            debug: false
+        }
+    },
+    scene: [ Menu, Game, LevelOne, Die, Win ]
 };
 
-var game = new Phaser.Game(config);
-
-function preload ()
-{
-    this.load.image('logo', 'assets/logo.png');
-}
-
-function create ()
-{
-    var logo = this.add.image(400, 150, 'logo');
-
-    this.tweens.add({
-        targets: logo,
-        y: 450,
-        duration: 2000,
-        ease: 'Power2',
-        yoyo: true,
-        loop: -1
-    });
-
-}
+const game = new Phaser.Game(config);
