@@ -1,6 +1,10 @@
 import Phaser from 'phaser';
 
 var player;
+var cursors;
+var platforms;
+var star;
+// var platforms;
 var resourcesGathered = 0;
 var resourcesGatheredText;
 var resourcesMax = 100;
@@ -25,8 +29,10 @@ export class LevelOne extends Phaser.Scene {
         this.load.spritesheet('tiles', 'assets/tiles.png', {frameWidth: 70, frameHeight: 70});
         // this.load.image('platforms', 'assets/ground.png');
         this.load.image('background', 'assets/Forest.png');
-        this.load.image('star', 'assets/invader.png');
+        this.load.image('star', 'assets/stick.png')
+        this.load.image('bomb', 'assets/bomb.png')
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
+
     }
 
     create () {
@@ -79,36 +85,61 @@ export class LevelOne extends Phaser.Scene {
 
         stars = this.physics.add.group({
             key: 'star',
-            repeat: 15,
-            setXY: {x: 12, y: 0, stepX: 140}
-        })
-
+            repeat: 12,
+            setXY: { x: 12, y: 15, stepX: 70 },
+        });
         stars.children.iterate(function (child) {
 
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+
         });
+        this.physics.add.collider(stars, platforms);
+        this.physics.add.overlap(player, stars, collectStar, null, this);
 
-        this.physics.add.collider(player, groundLayer);
-        this.physics.add.collider(stars, groundLayer);
-        this.physics.add.collider(stars, player);
+        var score = 0;
+        var scoreText;
 
+        bombs = this.physics.add.group();
 
-        resourcesGatheredText = this.add.text(16, 16, "Resources Gathered: 0", {fontSize: '32px', fill: '#fff'})
-        // set bounds so the camera won't go outside the game world
-        this.cameras.main.setBounds(75, 100, map.widthInPixels, map.heightInPixels);
-        // make the camera follow the player
-        this.cameras.main.startFollow(player);
+        this.physics.add.collider(bombs, platforms);
 
-        // set background color, so the sky is not black
-        this.cameras.main.setBackgroundColor('#ccccff');
+        this.physics.add.collider(player, bombs, hitBomb, null, this);
+        hitBomb (player, bomb)
+        {
+            this.physics.pause();
 
-        this.input.keyboard.on('keydown_' + 'SPACE', () => {this.scene.start('bossOne')});
+            player.setTint(0xff0000);
 
-        // this.physics.add.overlap(player, star, (star) =>
-        //     {star.disableBody(true, true);
-        //     resourcesGathered += 1;
-        //     resourcesGatheredText.updateText("Resources Gathered: " + resourcesGathered);}, null, this)
+            player.anims.play('turn');
 
+            gameOver = true;
+        }
+
+        collectStar (player, stars)
+        {
+            star.disableBody(true, true);
+
+            score += 10;
+            scoreText.setText('Score: ' + score);
+
+            if (stars.countActive(true) === 0)
+            {
+                stars.children.iterate(function (child) {
+
+                    child.enableBody(true, child.x, 0, true, true);
+
+                });
+
+                var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+                var bomb = bombs.create(x, 16, 'bomb');
+                bomb.setBounce(1);
+                bomb.setCollideWorldBounds(true);
+                bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+            }
+        }
+            scoreText = this.add.text(16, 16, 'sticks: 0', { fontSize: '32px', fill: '#000'})
     }
 
     update () {

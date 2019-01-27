@@ -24,5 +24,7 @@ const config = {
     },
     scene: [ Menu, LevelOne, Die, Win, BossOne, LevelTwo, BossTwo, LevelThree, BossThree, LevelFour ]
 };
+var platforms;
+var stars;
 
 const game = new Phaser.Game(config);
