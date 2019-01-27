@@ -14,7 +14,7 @@ import { BossThree } from './scenes/bossThree';
 const config = {
     type: Phaser.AUTO,
     parent: 'ohana',
-    width: 1600,
+    width: 1200,
     height: 800,
     physics: {
         default: 'arcade',

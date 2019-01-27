@@ -190,4 +190,4 @@ export class LevelOne extends Phaser.Scene {
 //         bomb.disableBody(true, true);
 //         playerHealth = 0;
 //     }
-// }
+}
