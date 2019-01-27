@@ -1,9 +1,8 @@
 import Phaser from 'phaser';
 
-
 var player;
 var cursors;
-var platforms;
+// var platforms;
 var resourcesGathered = 0;
 var resourcesMax = 100;
 var resourcesDropped = 0;
@@ -20,25 +19,36 @@ export class LevelOne extends Phaser.Scene {
 
     preload ()
     {
-        this.load.image('platforms', 'assets/ground.png');
+        this.load.tilemapTiledJSON('map', 'assets/map.json');
+        this.load.spritesheet('tiles', 'assets/tiles.png', {frameWidth: 70, frameHeight: 70});
+        // this.load.image('platforms', 'assets/ground.png');
         this.load.image('background', 'assets/Forest.png');
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
     }
 
     create () {
 
-        platforms = this.physics.add.staticGroup();
-        platforms.create(500,800, 'platforms').setScale(4).refreshBody();
-
         this.background = this.add.tileSprite(window.innerWidth/2.35, window.innerHeight/2.06,1200,800, 'background')
-        player = this.physics.add.sprite(100, 450, 'player')
+        var map = this.make.tilemap({ key: 'map' })
+        var groundTiles = map.addTilesetImage('tiles')
+        var groundLayer = map.createDynamicLayer('World', groundTiles, 1, 200)
+        // groundLayer.setCollisionByExcluision([-1])
+
+        this.physics.world.bounds.width = groundLayer.width;
+        this.physics.world.bounds.height = groundLayer.height;
+
+        // platforms = this.physics.add.staticGroup();
+        // platforms.create(500,800, 'platforms').setScale(4).refreshBody();
+
+        player = this.physics.add.sprite(100, 200, 'player')
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
+        player.body.setSize(player.width, player.height-8);
 
-        this.physics.add.collider(player, platforms)
+        // this.physics.add.collider(player, groundLayer)
 
-        this.physics.add.overlap(player, resource, collectResources, null, this);
-        this.physics.add.overlap(player, bomb, collectResources, null, this);
+        // this.physics.add.overlap(player, resource, collectResources, null, this);
+        // this.physics.add.overlap(player, bomb, collectResources, null, this);
 
         this.anims.create({
 

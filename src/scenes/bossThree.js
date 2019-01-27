@@ -7,7 +7,7 @@ var platforms;
 var playerHealth = 100;
 var bossHealth = 100;
 
-export class BossThrfee extends Phaser.Scene {
+export class BossThree extends Phaser.Scene {
     constructor () {
         super({
             key: 'bossThree',
