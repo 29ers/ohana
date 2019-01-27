@@ -88,6 +88,7 @@ export class LevelOne extends Phaser.Scene {
             repeat: 12,
             setXY: { x: 12, y: 15, stepX: 70 },
         });
+
         stars.children.iterate(function (child) {
 
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -96,75 +97,16 @@ export class LevelOne extends Phaser.Scene {
         this.physics.add.collider(stars, platforms);
         this.physics.add.overlap(player, stars, collectStar, null, this);
 
-        var score = 0;
-        var scoreText;
-
-        bombs = this.physics.add.group();
-
-        this.physics.add.collider(bombs, platforms);
-
-        this.physics.add.collider(player, bombs, hitBomb, null, this);
-        hitBomb (player, bomb)
-        {
-            this.physics.pause();
-
-            player.setTint(0xff0000);
-
-            player.anims.play('turn');
-
-            gameOver = true;
-        }
-
-        collectStar (player, stars)
-        {
-            star.disableBody(true, true);
-
-            score += 10;
-            scoreText.setText('Score: ' + score);
-
-            if (stars.countActive(true) === 0)
-            {
-                stars.children.iterate(function (child) {
-
-                    child.enableBody(true, child.x, 0, true, true);
-
-                });
-
-                var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-                var bomb = bombs.create(x, 16, 'bomb');
-                bomb.setBounce(1);
-                bomb.setCollideWorldBounds(true);
-                bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-
-            }
-        }
-            scoreText = this.add.text(16, 16, 'sticks: 0', { fontSize: '32px', fill: '#000'})
     }
+update () {
 
-    update () {
         let direction = 0;
-
-        if (cursors.left.isDown) {
-            direction = -1;
-            player.setVelocityX(-160);
-            player.anims.play('left', true)
-        } else if (cursors.right.isDown) {
-            direction = 1;
-            player.setVelocityX(160);
-            player.anims.play('right', true)
-        } else {
-            direction = 0;
-            player.setVelocityX(0);
-            player.anims.play('turn', true)
-        }
 
         if (cursors.up.isDown && player.body.onFloor()) {
 
+
             player.setVelocityY(-370)
         }
-
-        this.background.tilePositionX += direction*5
 
 
         if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
@@ -172,23 +114,6 @@ export class LevelOne extends Phaser.Scene {
             this.scene.start('bossOne')
         }
 
-        if (playerHealth === 0) {
-
-            this.scene.start('die')
-        }
     }
 
-    collectStar (star) {
-
-        star.disableBody(true, true);
-        resourcesGathered += 1;
-        resourcesGatheredText.updateText("Resources Gathered: " + resourcesGathered);
-
-    }
-
-    takeDamage (bomb) {
-
-        bomb.disableBody(true, true);
-        playerHealth = 0;
-    }
 }
