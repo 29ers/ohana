@@ -8,8 +8,10 @@ export class Die extends Phaser.Scene {
     }
 
     create () {
-        this.cameras.main.setBackgroundColor('#cb4335');
-        console.log('Die')
-        // this.scene.start('win')
+
+        let nameLabel = this.add.text(window.innerWidth/2.8, 200, 'YOU DIE!!!!!!!!!!', {fontSize: '50px', fill: '#fff'});
+        let startLabel = this.add.text(400, 400, 'Press the "W" key to restart', {fontSize: '25px', fill: '#fff'});
+
+        this.input.keyboard.on('keydown_' + 'W', () => {this.scene.start('levelOne')});
     }
 }

@@ -1,27 +1,22 @@
 import Phaser from 'phaser';
 
-
 var player;
 var cursors;
 var platforms;
-var resourcesGathered = 0;
-var resourcesMax = 100;
-var resourcesDropped = 0;
-var playerHealth = 100;
+var spaceInvaders = 100;
 
-
-export class LevelOne extends Phaser.Scene {
+export class LevelFour extends Phaser.Scene {
     constructor () {
         super({
-            key: 'levelOne',
+            key: 'levelFour',
             parent: 'ohana',
         })
     }
-
+    // REPLACE MOST OF THIS WITH SPACE INVADERS GAME //
     preload ()
     {
         this.load.image('platforms', 'assets/ground.png');
-        this.load.image('background', 'assets/Forest.png');
+        this.load.image('background', 'assets/Forest.png');//Change background
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
     }
 
@@ -91,24 +86,19 @@ export class LevelOne extends Phaser.Scene {
             player.setVelocityY(-370)
         }
 
-        this.background.tilePositionX += direction*5
+        this.background.tilePositionX += direction * 5
 
-        if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
+        if (spaceInvadfers === 0) {
 
-            this.scene.start('bossOne')
-        }
-
-        if (playerHealth === 0) {
-
-            this.scene.start('die')
+            this.scene.start('win')
         }
     }
 
-    collectResources (resource) {
+    killSpaceInvaders (spaceInvader) {
 
-        resource.disableBody(true, true);
-        resourcesGathered += 1;
-        resourcesGatheredText.setText('Resources Gathered: ' + score);
+        spaceInvader.disableBody(true, true);
+        spaceInvaders -= 1;
+        spaceInvadersRemaining.setText('Space Invaders Remaining: ' + spaceInvaders);
 
     }
 

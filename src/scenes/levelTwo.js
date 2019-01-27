@@ -10,10 +10,10 @@ var resourcesDropped = 0;
 var playerHealth = 100;
 
 
-export class LevelOne extends Phaser.Scene {
+export class LevelTwo extends Phaser.Scene {
     constructor () {
         super({
-            key: 'levelOne',
+            key: 'levelTwo',
             parent: 'ohana',
         })
     }
@@ -21,7 +21,7 @@ export class LevelOne extends Phaser.Scene {
     preload ()
     {
         this.load.image('platforms', 'assets/ground.png');
-        this.load.image('background', 'assets/Forest.png');
+        this.load.image('background', 'assets/Forest.png');//Change background
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
     }
 
@@ -95,7 +95,7 @@ export class LevelOne extends Phaser.Scene {
 
         if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
 
-            this.scene.start('bossOne')
+            this.scene.start('bossTwo')
         }
 
         if (playerHealth === 0) {
