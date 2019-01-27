@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
 
 var player;
 var cursors;
@@ -30,7 +30,7 @@ export class LevelOne extends Phaser.Scene {
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
 
     }
-    
+
     create () {
 
         this.background = this.add.tileSprite(window.innerWidth/2.35, window.innerHeight/2.06,1200,800, 'background')
@@ -55,31 +55,31 @@ export class LevelOne extends Phaser.Scene {
         // this.physics.add.overlap(player, resource, collectResources, null, this);
         // this.physics.add.overlap(player, bomb, collectResources, null, this);
 
-        this.anims.create({
+        // this.anims.create({
 
-            key: "left",
-            frames: this.anims.generateFrameNumbers('player', {start: 0, end: 6}),
-            frameRate: 20,
-            repeat: -1
+        //     key: "left",
+        //     frames: this.anims.generateFrameNumbers('player', {start: 0, end: 6}),
+        //     frameRate: 20,
+        //     repeat: -1
 
-        })
+        // })
 
-        this.anims.create({
+        // this.anims.create({
 
-            key: "turn",
-            frames: [{key:'player', frame: 7}],
-            frameRate: 20
+        //     key: "turn",
+        //     frames: [{key:'player', frame: 7}],
+        //     frameRate: 20
 
-        })
+        // })
 
-        this.anims.create({
+        // this.anims.create({
 
-            key: "right",
-            frames: this.anims.generateFrameNumbers('player', {start: 8, end: 17}),
-            frameRate: 10,
-            repeat: -1
+        //     key: "right",
+        //     frames: this.anims.generateFrameNumbers('player', {start: 8, end: 17}),
+        //     frameRate: 10,
+        //     repeat: -1
 
-        })
+        // })
 
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -91,7 +91,7 @@ export class LevelOne extends Phaser.Scene {
         stars.children.iterate(function (child) {
 
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-        
+
         });
         this.physics.add.collider(stars, platforms);
         this.physics.add.overlap(player, stars, collectStar, null, this);
@@ -142,52 +142,52 @@ export class LevelOne extends Phaser.Scene {
             scoreText = this.add.text(16, 16, 'sticks: 0', { fontSize: '32px', fill: '#000'})
     }
 
-    update () {
-        let direction = 0;
+//     update () {
+//         let direction = 0;
 
-        if (cursors.left.isDown) {
-            direction = -1;
-            player.setVelocityX(-160);
-            player.anims.play('left', true)
-        } else if (cursors.right.isDown) {
-            direction = 1;
-            player.setVelocityX(160);
-            player.anims.play('right', true)
-        } else {
-            direction = 0;
-            player.setVelocityX(0);
-            player.anims.play('turn', true)
-        }
+//         if (cursors.left.isDown) {
+//             direction = -1;
+//             player.setVelocityX(-160);
+//             player.anims.play('left', true)
+//         } else if (cursors.right.isDown) {
+//             direction = 1;
+//             player.setVelocityX(160);
+//             player.anims.play('right', true)
+//         } else {
+//             direction = 0;
+//             player.setVelocityX(0);
+//             player.anims.play('turn', true)
+//         }
 
-        if (cursors.up.isDown && player.body.touching.down) {
+//         if (cursors.up.isDown && player.body.touching.down) {
 
-            player.setVelocityY(-370)
-        }
+//             player.setVelocityY(-370)
+//         }
 
-        this.background.tilePositionX += direction*5
+//         this.background.tilePositionX += direction*5
 
-        if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
+//         if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
 
-            this.scene.start('bossOne')
-        }
+//             this.scene.start('bossOne')
+//         }
 
-        if (playerHealth === 0) {
+//         if (playerHealth === 0) {
 
-            this.scene.start('die')
-        }
-    }
+//             this.scene.start('die')
+//         }
+//   }
 
-    collectResources (resource) {
+//     collectResources (resource) {
 
-        resource.disableBody(true, true);
-        resourcesGathered += 1;
-        resourcesGatheredText.setText('Resources Gathered: ' + score);
+//         resource.disableBody(true, true);
+//         resourcesGathered += 1;
+//         resourcesGatheredText.setText('Resources Gathered: ' + score);
 
-    }
+//     }
 
-    takeDamage (bomb) {
+//     takeDamage (bomb) {
 
-        bomb.disableBody(true, true);
-        playerHealth = 0;
-    }
+//         bomb.disableBody(true, true);
+//         playerHealth = 0;
+//     }
 }

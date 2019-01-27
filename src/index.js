@@ -6,6 +6,7 @@ import { LevelThree } from './scenes/levelThree';
 import { LevelFour } from './scenes/levelFour';
 import { Die } from './scenes/die';
 import { Win } from './scenes/win';
+import { BossBattle } from'./scenes/bossBattle';
 import { BossOne } from './scenes/bossOne';
 import { BossTwo } from './scenes/bossTwo';
 import { BossThree } from './scenes/bossThree';
