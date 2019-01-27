@@ -4,16 +4,13 @@ import Phaser from 'phaser';
 var player;
 var cursors;
 var platforms;
-var resourcesGathered = 0;
-var resourcesMax = 100;
-var resourcesDropped = 0;
 var playerHealth = 100;
+var bossHealth = 100;
 
-
-export class LevelOne extends Phaser.Scene {
+export class BossTwo extends Phaser.Scene {
     constructor () {
         super({
-            key: 'levelOne',
+            key: 'bossTwo',
             parent: 'ohana',
         })
     }
@@ -21,8 +18,10 @@ export class LevelOne extends Phaser.Scene {
     preload ()
     {
         this.load.image('platforms', 'assets/ground.png');
-        this.load.image('background', 'assets/Forest.png');
+        this.load.image('background', 'assets/Forest.png'); //get new background
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 128, frameHeight: 120});
+
+        //Import Boss
     }
 
     create () {
@@ -36,9 +35,6 @@ export class LevelOne extends Phaser.Scene {
         player.setCollideWorldBounds(true);
 
         this.physics.add.collider(player, platforms)
-
-        this.physics.add.overlap(player, resource, collectResources, null, this);
-        this.physics.add.overlap(player, bomb, collectResources, null, this);
 
         this.anims.create({
 
@@ -70,7 +66,6 @@ export class LevelOne extends Phaser.Scene {
     }
 
     update () {
-        let direction = 0;
 
         if (cursors.left.isDown) {
             direction = -1;
@@ -86,35 +81,24 @@ export class LevelOne extends Phaser.Scene {
             player.anims.play('turn', true)
         }
 
-        if (cursors.up.isDown && player.body.touching.down) {
+        if (bossHealth === 0) {
 
-            player.setVelocityY(-370)
+            this.scene.start('levelThree')
         }
 
-        this.background.tilePositionX += direction*5
 
-        if (resourcesGathered === resourcesMax || resourcesDropped === 100) {
-
-            this.scene.start('bossOne')
-        }
-
-        if (playerHealth === 0) {
+        if (playerHealth === 0 ) {
 
             this.scene.start('die')
         }
     }
 
-    collectResources (resource) {
-
-        resource.disableBody(true, true);
-        resourcesGathered += 1;
-        resourcesGatheredText.setText('Resources Gathered: ' + score);
+    playerTakeDamage () {
 
     }
 
-    takeDamage (bomb) {
+    bossTakeDamage () {
 
-        bomb.disableBody(true, true);
-        playerHealth = 0;
     }
+
 }
